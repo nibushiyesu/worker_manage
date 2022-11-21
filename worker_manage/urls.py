@@ -23,5 +23,15 @@ urlpatterns = [
     path('depart/list/', views.depart_list),
     path('depart/add/', views.depart_add),
     path('depart/delete/', views.depart_delete),
-    path('depart/<int:nid>/edit/', views.depart_edit)
+    path('depart/<int:nid>/edit/', views.depart_edit),
+    path('user/list/', views.user_list),
+    path('user/add/', views.user_add),
+    path('user/<int:nid>/edit/', views.user_edit),
+    path('user/<int:nid>/delete/', views.user_delete),
+    path('pretty/list/', views.pretty_list),
+    path('pretty/add/', views.pretty_add),
+    path('pretty/<int:nid>/edit/', views.pretty_edit),
+    path('pretty/<int:nid>/delete/', views.pretty_delete),
+    path('recharge/list/', views.recharge_list),
+    path('user/login/', views.user_login),
 ]

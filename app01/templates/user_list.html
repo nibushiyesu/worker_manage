@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="container">
+
+    <div class="panel-body">
+        <button type="button" class="btn btn-info"><a href="/user/add/">新建用户</a></button>
+    </div>
+    <div class="bs-example" data-example-id="bordered-table">
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp;用户列表
+            </h3>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>password</th>
+                <th>age</th>
+                <th>account</th>
+                <th>create_time</th>
+                <th>gender</th>
+                <th>depart_id</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for user in user_list %}
+                <tr>
+                    <th scope="row">{{ user.id }}</th>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ user.age }}</td>
+                    <td>{{ user.account }}</td>
+                    <td>{{ user.create_time|date:"Y-m-d" }}</td>
+                    <td>{{ user.get_gender_display }}</td>
+                    <td>{{ user.depart.title }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" href="/user/{{ user.id }}/edit/">编辑</a>
+                        <a class="btn btn-danger btn-xs" href="/user/{{ user.id }}/delete/">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+   
+{% endblock %}

@@ -1,18 +1,25 @@
 {% extends 'layout.html' %}
 {% block content %}
+
+
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">新建部门</h3>
+                <h3 class="panel-title">新建靓号</h3>
             </div>
+
             <div class="panel-body">
 
-                <form class="form-inline" method="post" action="/depart/add/">
+                <form method="post" novalidate>
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label class="sr-only" for="exampleInputEmail3">标题</label>
-                        <input type="text" class="form-control" name="dep" placeholder="depart"/>
-                    </div>
+                    {% for field in form %}
+                        <div class="form-group">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                            <span style="color: red">{{ field.errors.0 }}</span>
+                        </div>
+                    {% endfor %}
+
 
                     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-credit-card"
                                                                         aria-hidden="true"></span>&nbsp;提交
