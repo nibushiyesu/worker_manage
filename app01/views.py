@@ -247,6 +247,7 @@ def pretty_edit(req, nid):
     # 返回错误页面
     return render(req, 'pretty_edit.html', {'form': form})
 
+
 def pretty_delete(req, nid):
     """删除靓号"""
     models.PrettyNum.objects.filter(id=nid).delete()
