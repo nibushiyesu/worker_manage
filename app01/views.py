@@ -89,7 +89,7 @@ def user_add(req):
         form.save()
         return redirect('/user/list/')
 
-    # 校验失败
+    # 校验失败，返回错误信息， 此时的form不同于get时的form
     return render(req, 'user_add.html', {'form': form})
 
 
@@ -121,8 +121,20 @@ def user_delete(req, nid):
 
 
 def pretty_list(req):
-    queryset = models.PrettyNum.objects.all()
-    return render(req, 'pretty_list.html', {"queryset": queryset})
+    # for i in range(300):
+    #     models.PrettyNum.objects.create(mobile="18736826584")
+    data_dict = {}
+    # get请求
+    search_data = req.GET.get("q", "")
+    if search_data:
+        data_dict["mobile__contains"] = search_data
+    # 分页显示
+    page = int(req.GET.get("page", "1"))
+    page_size = 10
+    start = (page - 1) * page_size
+    end = page * page_size
+    queryset = models.PrettyNum.objects.filter(**data_dict).order_by("-level")[start:end]
+    return render(req, 'pretty_list.html', {"queryset": queryset, "search_data": search_data})
 
 
 from django import forms
@@ -131,17 +143,18 @@ from django.core.exceptions import ValidationError
 
 class PrettyModelForm(forms.ModelForm):
     # disabled = True,
-    # mobile = forms.CharField(label='手机号',
-    #                          validators=[RegexValidator(r'^1[3-9\d{9}$', '手机号格式错误'), ], )
+    # mobile = forms.CharField(label='手机号',validators=[RegexValidator(r'^1[3-9\d{9}$', '手机号格式错误'), ], )
 
     class Meta:
         model = models.PrettyNum
         fields = ['mobile', 'price', 'level', 'status']
 
         # fields = "__all__"
+
         # 排除字段
         # exclude = ['status']
 
+    # 定义input样式
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # 循环所有插件，添加class属性
@@ -150,6 +163,7 @@ class PrettyModelForm(forms.ModelForm):
             # widget 没有s
             field.widget.attrs = {"class": "form-control", 'placeholder': field.label}
 
+    # 验证方式2： 钩子方法 校验信息
     def clean_mobile(self):
         txt_mobile = self.cleaned_data["mobile"]
 
@@ -157,9 +171,11 @@ class PrettyModelForm(forms.ModelForm):
 
         if exist:
             raise ValidationError("手机号已存在")
+
         # if len(txt_mobile) != 11:
         #     raise ValidationError("格式错误")
-        # 返回填写的的手机号
+
+        # 如果验证通过,返回填写的的手机号
         return txt_mobile
 
 
@@ -199,10 +215,11 @@ class PrettyEditModelForm(forms.ModelForm):
         for name, field in self.fields.items():
             # print(name, field)
             # widget 没有s
+            # 给输入框添加样式
             field.widget.attrs = {"class": "form-control", 'placeholder': field.label}
 
+    # 编辑手机号的验证规则
     def clean_mobile(self):
-
         txt_mobile = self.cleaned_data["mobile"]
         # primaryKey
         exist = models.PrettyNum.objects.exclude(self.instance.pk).filter(mobile=txt_mobile).exists()
@@ -222,7 +239,7 @@ def pretty_edit(req, nid):
     if req.method == 'GET':
         form = PrettyEditModelForm(instance=row_obj)
         return render(req, 'pretty_edit.html', {'form': form})
-
+    # 提交的时候不是新增一条数据，而是修改数据
     form = PrettyEditModelForm(data=req.POST, instance=row_obj)
     if form.is_valid():
         form.save()
