@@ -262,4 +262,48 @@ def user_login(req):
 
 
 def recharge_list(req):
-    return render(req, 'user_recharge.html')
+    return render(req, 'user_recharge_list.html')
+
+
+# class UserRechargeModelForm(forms.ModelForm):
+#     # name = forms.CharField(min_length=3, label="用户名")
+#
+#     class Meta:
+#         model = models.recharge
+#         fields = ['name', 'password', 'age', 'gender', 'depart', 'create_time']
+#
+#         # widgets = {
+#         #     'name': forms.TextInput(attrs={"class": "form-control"})
+#         #     'password': forms.TextInput(attrs={"class": "form-control"})
+#         #     'age': forms.TextInput(attrs={"class": "form-control"})
+#         # }
+#
+#     # 与mata类是同级的
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         # 循环所有插件，添加class属性
+#         for name, field in self.fields.items():
+#             # print(name, field)
+#             # widget 没有s
+#             field.widget.attrs = {"class": "form-control", 'placeholder': field.label}
+#
+#
+# def user_recharge(req):
+#     ''' 用户充值界面'''
+#     if req.method == "GET":
+#         form = UserRechargeModelForm
+#         return render(req, 'user_recharge.html', {'form': form})
+#
+#     form = UserRechargeModelForm(data=req.POST)
+#     if form.is_valid():
+#         # print(form.cleaned_data)
+#         # 保存到数据库
+#         form.save()
+#         return redirect('/user/recharge/list')
+#
+#     # 校验失败，返回错误信息， 此时的form不同于get时的form
+#     return render(req, 'user_recharge.html', {'form': form})
+
+
+def chart_list(req):
+    return render(req, 'chart_list.html')

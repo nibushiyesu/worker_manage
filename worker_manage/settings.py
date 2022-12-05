@@ -92,17 +92,27 @@ WSGI_APPLICATION = 'worker_manage.wsgi.application'
 #         'PORT': 26000,
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'gx_day16',  # 数据库名字
+#         'USER': 'root',
+#         'PASSWORD': '123456',
+#         'HOST': '127.0.0.1',  # 那台机器安装了MySQL
+#         'PORT': 3306,
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gx_day16',  # 数据库名字
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': '127.0.0.1',  # 那台机器安装了MySQL
-        'PORT': 3306,
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',  # 数据库名字
+        'USER': 'dboper',
+        'PASSWORD': 'python@123',
+        'HOST': '120.46.218.250',  # 那台机器安装了MySQL
+        'PORT': 26000,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

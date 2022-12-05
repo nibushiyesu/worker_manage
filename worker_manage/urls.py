@@ -34,4 +34,6 @@ urlpatterns = [
     path('pretty/<int:nid>/delete/', views.pretty_delete),
     path('recharge/list/', views.recharge_list),
     path('user/login/', views.user_login),
+    path('chart/list/', views.chart_list),
+    # path('user/recharge/', views.user_recharge),
 ]
